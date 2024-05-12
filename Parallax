@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Parallax : MonoBehaviour
+{
+    private float ImgLength;
+    private float StartPosX;
+
+    public GameObject Cam;
+    public float ParallaxSpeed;
+
+    void Start()
+    {
+        StartPosX = transform.position.x;
+        ImgLength = GetComponent<SpriteRenderer>().bounds.size.x; // Len of the image
+    }
+
+    void Update()
+    {
+        float distance = Cam.transform.position.x * ParallaxSpeed;
+        float distanceRelCam = Cam.transform.position.x * (1 - ParallaxSpeed);
+
+        transform.position = new Vector3(StartPosX + distance, transform.position.y, transform.position.z);
+
+        if (distanceRelCam > StartPosX + ImgLength)
+        {
+            StartPosX += ImgLength;
+        }
+        else if (distanceRelCam < StartPosX - ImgLength)
+        {
+            StartPosX -= ImgLength;
+        }
+    }
+}
